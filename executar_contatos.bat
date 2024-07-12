@@ -6,4 +6,3 @@ rem Executa o script Python
 python %SCRIPT_PYTHON%
 
 pause
- 
