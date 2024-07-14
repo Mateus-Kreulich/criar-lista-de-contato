@@ -6,7 +6,10 @@ ARQUIVO_CONTATOS = 'contatos.json'
 def carregar_contatos():
     if os.path.exists(ARQUIVO_CONTATOS):
         with open(ARQUIVO_CONTATOS, 'r') as file:
-            return json.load(file)
+            try:
+                return json.load(file)
+            except json.JSONDecodeError:
+                return {}
     return {}
 
 def salvar_contatos(contatos):
@@ -15,10 +18,15 @@ def salvar_contatos(contatos):
 
 def adicionar_contato():
     nome = input("Digite o nome do contato: ")
+    
+    contatos = carregar_contatos()
+    if nome in contatos:
+        print(f"Contato com o nome {nome} já existe.")
+        return
+
     telefone = input("Digite o telefone do contato: ")
     email = input("Digite o email do contato: ")
 
-    contatos = carregar_contatos()
     contatos[nome] = {"telefone": telefone, "email": email}
     salvar_contatos(contatos)
 
